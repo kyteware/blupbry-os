@@ -15,18 +15,18 @@ PROGS = $(PROG_SRC:.c=.bin)
 
 # we give you these.
 LIBPI_OBJS = gpio.o delay.o
-# staff start file: must go first for linking.
-STAFF_START := ./start.o
+ASM_SRC = start.S $(filter-out start.S, $(wildcard *.S))
+ASM_OBJS = $(ASM_SRC:.S=.o)
 
 # make sure to compute dependencies for all source files.
-all_objs = $(PROG_OBJS) $(LIBPI_OBJS) $(STAFF_START)
+all_objs = $(PROG_OBJS) $(LIBPI_OBJS) $(ASM_OBJS)
 dep = $(all_objs:.o=.d)
 
 # linker script to lay out the executable (the .bin that runs on the pi)
 MEMMAP := ./memmap
 
 # recompile everything if Makefile changes.
-DEPS := ./Makefile 
+DEPS := ./Makefile
 
 # the different tools we use.
 ARM = arm-none-eabi
@@ -53,7 +53,7 @@ all:  $(PROGS)
 # include the generated dependency rules.
 # open up a .d file in your editor to see 
 # why this works!
-# -include $(dep)
+-include $(dep)
 
 #####################################################################
 # all the pattern matching rules to make the 
@@ -63,17 +63,19 @@ all:  $(PROGS)
 	echo "converting c to o"
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# rule for assembly.
 %.o: %.S $(DEPS)
 	echo "converting s to o"
 	$(AS) -c $(ASFLAGS) $< -o $@
 
 # rules to generate .elf->.list->.bin
-%.elf: %.o $(LIBPI_OBJS) $(STAFF_START) $(MEMMAP) $(DEPS) 
+%.elf: %.o $(LIBPI_OBJS) $(ASM_OBJS) $(MEMMAP) $(DEPS) 
 	echo "converting o to elf"
-	$(CC) $(CFLAGS) $(STAFF_START) $< $(LIBPI_OBJS) -T $(MEMMAP) -o $@ 
+	$(CC) $(CFLAGS) $(ASM_OBJS) $< $(LIBPI_OBJS) -T $(MEMMAP) -o $@ 
 
-%.bin: %.elf
+%.list: %.elf
+	$(OD) -D  $< > $@
+
+%.bin: %.list
 	echo "converting list to bin"
 	$(OCP) $*.elf -O binary $*.bin
 

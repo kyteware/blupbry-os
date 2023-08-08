@@ -1,4 +1,4 @@
-#include "rpi.h"
+#include "asm-funcs.h"
 
 void delay_cycles(unsigned ticks) {
   while (ticks-- > 0)

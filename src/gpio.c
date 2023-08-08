@@ -8,6 +8,7 @@
  * See rpi.h in this directory for the definitions.
  */
 #include "rpi.h"
+#include "asm-funcs.h"
 
 // see broadcomm documents for magic addresses.
 enum {
