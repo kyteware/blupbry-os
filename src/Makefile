@@ -50,34 +50,31 @@ ASFLAGS = --warn --fatal-warnings -mcpu=arm1176jzf-s -march=armv6zk
 
 all:  $(PROGS)
 
-# rules to generate .elf->.list->.bin
-%.elf: %.o $(LIBPI_OBJS) $(STAFF_START) $(MEMMAP) $(DEPS) 
-	$(CC) $(CFLAGS) $(STAFF_START) $< $(LIBPI_OBJS) -T $(MEMMAP) -o $@ 
-
 # include the generated dependency rules.
 # open up a .d file in your editor to see 
 # why this works!
--include $(dep)
+# -include $(dep)
 
 #####################################################################
 # all the pattern matching rules to make the 
 # different file types.
 
 %.o: %.c $(DEPS)
+	echo "converting c to o"
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # rule for assembly.
 %.o: %.S $(DEPS)
+	echo "converting s to o"
 	$(AS) -c $(ASFLAGS) $< -o $@
 
-# generate a listing from the elf file so can see what the
-# machine code looks like
-%.list: %.elf
-	$(OD) -D  $< > $@
+# rules to generate .elf->.list->.bin
+%.elf: %.o $(LIBPI_OBJS) $(STAFF_START) $(MEMMAP) $(DEPS) 
+	echo "converting o to elf"
+	$(CC) $(CFLAGS) $(STAFF_START) $< $(LIBPI_OBJS) -T $(MEMMAP) -o $@ 
 
-# generate a .bin --- we put the .list as the dependency
-# so it gets generated; doesn't actually get used.
-%.bin: %.list
+%.bin: %.elf
+	echo "converting list to bin"
 	$(OCP) $*.elf -O binary $*.bin
 
 clean:

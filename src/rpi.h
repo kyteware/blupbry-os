@@ -1,5 +1,4 @@
-#ifndef __RPI_H__
-#define __RPI_H__
+
 // begin defining our r/pi library.
 
 /************************************************************
@@ -144,4 +143,3 @@ void gpio_set_pulldown(unsigned pin);
  */
 void gpio_pud_off(unsigned pin);
 
-#endif
