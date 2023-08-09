@@ -1,6 +1,8 @@
 // part2: test GPIO input.
 //   - if we get a signal on the input pin 21, turn the LED on.
 #include "rpi.h"
+#include "timer-interrupt.h"
+#include "asm-funcs.h"
 
 void notmain(void) {
     const int led = 20;
@@ -11,19 +13,17 @@ void notmain(void) {
     gpio_set_output(flasher);
     gpio_set_input(input);
 
-    int counter = 300000;
-    int status = 0;
+    timer_interrupt_init(0x100000);
+    enable_interrupts();
+
     while(1) {
-        if (counter-- <= 0) {
-            counter = 300000;
-            status ^= 1;
-            gpio_write(flasher, status);
-        }
-        // could also do: 
-        //  gpio_write(input, gpio_read(led));
         if(gpio_read(input))
             gpio_set_on(led);
         else
             gpio_set_off(led);
     }
+}
+
+void interrupt_vector(unsigned pc) {
+
 }

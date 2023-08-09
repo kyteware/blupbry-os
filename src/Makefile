@@ -14,7 +14,7 @@ PROG_OBJS = $(PROG_SRC:.c=.o)
 PROGS = $(PROG_SRC:.c=.bin)
 
 # we give you these.
-LIBPI_OBJS = gpio.o delay.o
+LIBPI_OBJS = gpio.o delay.o timer-interrupt.o
 ASM_SRC = start.S $(filter-out start.S, $(wildcard *.S))
 ASM_OBJS = $(ASM_SRC:.S=.o)
 

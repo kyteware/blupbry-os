@@ -47,3 +47,6 @@ uint32_t GET32(uint32_t addr);
  * it to prevent the compiler optimizing away loops.
  */
 void nop(void);
+
+void enable_interrupts(void);
+void disable_interrupts(void);
