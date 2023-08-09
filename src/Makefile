@@ -35,7 +35,7 @@ LD  = $(ARM)-ld
 AS  = $(ARM)-as
 OD  = $(ARM)-objdump
 OCP = $(ARM)-objcopy
-AS  = $(ARM)-as
+AR  = $(ARM)-ar
 
 # The gcc compiler flags
 #    -Wall: warn about a bunch of suss things.
