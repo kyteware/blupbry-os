@@ -13,9 +13,6 @@ void notmain(void) {
     gpio_set_output(flasher);
     gpio_set_input(input);
 
-    timer_interrupt_init(0x100000);
-    enable_interrupts();
-
     while(1) {
         if(gpio_read(input))
             gpio_set_on(led);
