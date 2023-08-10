@@ -48,6 +48,8 @@ CFLAGS = -O -Wall -Wno-unused-variable -Werror \
 # the assembler flags (for start.S)
 ASFLAGS = --warn --fatal-warnings -mcpu=arm1176jzf-s -march=armv6zk
 
+include
+
 all:  $(PROGS)
 
 # include the generated dependency rules.

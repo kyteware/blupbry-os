@@ -21,6 +21,8 @@
 *.a
 *.la
 *.lo
+#libpi
+*/libpi
 
 # Shared objects (inc. Windows DLLs)
 *.dll
