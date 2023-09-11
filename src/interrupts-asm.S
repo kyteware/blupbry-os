@@ -94,8 +94,19 @@ undefined_instruction_asm:
   sub   lr, lr, #4
   bl    undefined_instruction_vector
 software_interrupt_asm:
-  sub   lr, lr, #4
+  push  {r0-r12,lr}
+
+  mov   r0, lr 
+  sub   r0, r0, #4
+  ldr   r0, [r0]
+  and   r0, r0, #((1 << 24) - 1)
+
+  mov   r1, r0
+  mov   r0, lr
   bl    software_interrupt_vector
+
+  pop   {r0-r12,lr}
+  movs pc, lr
 prefetch_abort_asm:
   sub   lr, lr, #4
   bl    prefetch_abort_vector

@@ -1,6 +1,6 @@
 # need the makefile to give an error if this doesn't exist
 PROGS := kernel.c
-COMMON_SRC := interrupts-c.c interrupts-asm.S timer-interrupt.c
+COMMON_SRC := interrupts-c.c interrupts-asm.S timer-interrupt.c syscall-asm.S
 
 # uncomment if you want it to automatically run.
 RUN=1
