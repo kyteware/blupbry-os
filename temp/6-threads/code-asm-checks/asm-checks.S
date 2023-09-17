@@ -3,12 +3,12 @@
  */
 #include "rpi-asm.h"
 
-MK_FN(check_push_asm)
-    mov r1, sp      @ before
-    push {r0}
-    mov r0, sp      @ after
-    bl after_push
-    asm_not_reached()
+@ MK_FN(check_push_asm)
+@    mov r1, sp      @ before
+@    push {r0}
+@    mov r0, sp      @ after
+@    bl after_push
+@    asm_not_reached()
 
 
 @ do this so doesn't have to be defined in the tests.
@@ -37,7 +37,6 @@ MK_FN(push_r4_r12_asm)
     push {r4-r12}   @ save the registers we will trash.
     mov r1, sp      @ save sp to scratch register
 
-
     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     @ do the push with fixed values.
 
@@ -54,8 +53,6 @@ MK_FN(push_r4_r12_asm)
     mov sp, r1      @ restore sp
     pop {r4-r12}    @ restore trashed regs
     bx lr
-    asm_todo(implement check_push_order_asm)
-
 
 @ save just the callee and lr.
 @ before doing so, write the number of

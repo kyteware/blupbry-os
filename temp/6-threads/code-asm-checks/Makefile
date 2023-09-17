@@ -3,8 +3,8 @@
 PROGS = 1-stack-dir.c
 PROGS = 2-where-push.c
 PROGS = 3-push-order.c
-PROGS = 4-callee.c
-PROGS = $(wildcard ./[12345]*.c)
+# PROGS = 4-callee.c
+# PROGS = $(wildcard ./[12345]*.c)
 
 COMMON_SRC = asm-checks.S
 

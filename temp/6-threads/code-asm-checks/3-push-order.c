@@ -10,7 +10,6 @@
 // implement this assembly routine in <asm-checks.S>
 uint32_t * push_r4_r12_asm(uint32_t *scratch);
 
-
 // called with:
 //   - <sp_after_push>: value of the <sp> after the push 
 //   - <sp_before_push>: value of the <sp> before the push 
@@ -19,16 +18,18 @@ void check_push_order(void) {
             // pointer to the middle so doesn't matter if up
             // or down
             *p = &scratch_mem[32];
-
+    
     uint32_t *ret = push_r4_r12_asm(p);
     assert(ret < p);
 
-    // check that regs holds the right values.
-    todo("write the code to check that <ret> holds the expected values.");
-    todo("see caller in <asm-check.S:push_r4_r12_asm>");
+    if (*(p-2) == 5)
+        trace("pushed first to last");
+    else if (*(ret + 1) == 5)
+        trace("pushes last to first");
+    else
+        trace("ruh roh :O");
 
     return;
-
 }
 
 void notmain() {
